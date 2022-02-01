@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'SortingVisualizer';
+
+  array: number[] = [1, 5, 6, 7];
 }
