@@ -1,49 +1,71 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-custom">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#">Sorting Visualizer</a>
+    <button
+      class="navbar-toggler custom-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link" href="#">New Array</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
+          <a class="nav-link" href="#">Reset</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Algorithm
           </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul
+            class="dropdown-menu dropdown-menu-end dropdow"
+            aria-labelledby="navbarDropdown"
+          >
+            <li><a class="dropdown-item" href="#" (click)="algorithmSelected('Bubble Sort')">Bubble Sort</a></li>
+            <li><a class="dropdown-item" href="#" (click)="algorithmSelected('Selection Sort')">Selection Sort</a></li>
+            <li><a class="dropdown-item" href="#" (click)="algorithmSelected('Insertion Sort')">Insertion Sort</a></li>
+            <li><a class="dropdown-item" href="#" (click)="algorithmSelected('Merge Sort')">Merge Sort</a></li>
+            <li><a class="dropdown-item" href="#" (click)="algorithmSelected('Quick Sort')">Quick Sort</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
       </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
 
 
-<div class="container">
-  <div class="elements">
-    <div style=" height: 200px;">
+<div class="row">
+  <div class="col col-md-3 col-sm-12 col-12 algo-play">
+    <h1 *ngIf="!algorithm">Select an algorithm</h1>
+    <h1 *ngIf="algorithm">{{algorithm}}</h1>
+
+    <img class="play-button" [ngClass]="{'img-disable': !algorithm}" src="assets/images/play-button.png" >
+  </div>
+
+  <div class="col col-md-6 col-sm-12 col-12 elements">
+    <div *ngFor="let barHeight of barHeights" [style.height.px]="barHeight">
     </div>
-    <div style=" height: 400px;">
+  </div>
+  <div class="col col-md-3 col-sm-12 col-12 controls">
+    <div class="row">
+      <label class="form-label">Speed</label>
     </div>
-    <div style=" height: 40px;">
-    </div>
+    <div class="row">
+       <input type="range" class="form-range speed-range" min="0" max="2" step="1">
   </div>
 </div>
 

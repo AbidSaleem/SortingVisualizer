@@ -1,19 +1,89 @@
-div.container{
-  height: 575px;
-  position: relative;
+/* Algo-Play Section */
+
+h1 {
+  color: #35858B;
 }
+
+.algo-play {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.play-button {
+  height: 50px;
+  margin: 30px;
+}
+
+.img-disable {
+  opacity: 0.2;
+}
+
+/* Controls Section */
+
+.form-range {
+  width: 60px;
+  display: inline-block;
+}
+
+.speed-range::-webkit-slider-thumb {
+  background-color: #35858B;
+}
+
+.controls {
+  padding-top: 50px;
+  padding-left: 250px;
+}
+
+.faster, .slower {
+  display: inline;
+}
+
+/* Bars Section */
 
 div.elements {
   text-align: center;
-  position: absolute;
-  bottom: 20px;
-  left: 50px;
-  right: 50px;
+  position: relative;
+  top: 150px;
 }
 
 div.elements div {
-  background-color: darkcyan;
+  background-color: #35858B;
   display: inline-block;
-  width: 10px;
-  margin: 5px;
+  width: 5px;
+  margin: 2px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.navbar-custom {
+  background-color: #0f4851;;
+}
+
+.navbar-custom p, .navbar-custom a {
+  color: white;
+}
+
+.dropdown-menu a {
+  color: black;
+}
+
+.dropdown-menu a:hover {
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: #35858B;
+}
+
+.btn-custom {
+  background-color: white;
+}
+
+.custom-toggler.navbar-toggler {
+  border-color: #35858B;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(250,250,250,250)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
