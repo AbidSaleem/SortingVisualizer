@@ -12,6 +12,11 @@ h1 {
 .play-button {
   height: 50px;
   margin: 30px;
+  opacity: 0.8;
+}
+
+.play-button:active:not(.img-disable) {
+  opacity: 1;
 }
 
 .img-disable {
@@ -54,6 +59,9 @@ div.elements div {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
+
+
+/* Navbar */
 
 .navbar-custom {
   background-color: #0f4851;;

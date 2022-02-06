@@ -18,7 +18,7 @@
           <a class="nav-link" href="#">New Array</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Reset</a>
+          <a class="nav-link" href="#" (click)="reset()">Reset</a>
         </li>
         <li class="nav-item dropdown">
           <a
@@ -53,11 +53,11 @@
     <h1 *ngIf="!algorithm">Select an algorithm</h1>
     <h1 *ngIf="algorithm">{{algorithm}}</h1>
 
-    <img class="play-button" [ngClass]="{'img-disable': !algorithm}" src="assets/images/play-button.png" >
+    <img class="play-button" [ngClass]="{'img-disable': !algorithm}" src="assets/images/play-button.png" (click)="playClicked()">
   </div>
 
   <div class="col col-md-6 col-sm-12 col-12 elements">
-    <div *ngFor="let barHeight of barHeights" [style.height.px]="barHeight">
+    <div *ngFor="let barHeight of barHeights; let i = index" [style.height.px]="barHeight" class="'' + {{i}}">
     </div>
   </div>
   <div class="col col-md-3 col-sm-12 col-12 controls">
