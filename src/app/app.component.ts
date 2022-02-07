@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnChanges } from '@angular/core';
 import { Algorithms } from './enums/algorithms-enums';
 
 @Component({
@@ -12,7 +12,8 @@ export class AppComponent implements OnChanges {
   barHeights: number[] = [];
   barHeightsBackup: number[] = [];
   length = 400;
-  size = 80;
+  size = 20;
+  speed = 500;
   algorithm = Algorithms.NONE;
 
   constructor() {
@@ -65,25 +66,49 @@ export class AppComponent implements OnChanges {
     this.barHeightsBackup = [...this.barHeights];
 
     for(let i = 0; i < this.size - 1; i++) {
+
       for(let j = 0; j < this.size - i - 1; j++) {
 
         let element1 = document.getElementsByClassName('' + j)[0] as HTMLElement;
         element1.style.backgroundColor = '#B8405E';
 
-        await this.delay(10);
+        await this.delay(this.speed);
 
         if(this.barHeights[j] > this.barHeights[j + 1]) {
+
           let temp = this.barHeights[j];
           this.barHeights[j] = this.barHeights[j + 1];
           this.barHeights[j + 1] = temp;
+          await this.delay(1);
 
-          await this.delay(10);
+          if(j === this.size - i - 2) {
+            element1.style.backgroundColor = '#0f4851';
+            continue;
+          }
+        }
+
+        else {
+          let element2 = document.getElementsByClassName('' + (j + 1))[0] as HTMLElement;
+
+          element1.style.backgroundColor = '#b61f45';
+          element2.style.backgroundColor = '#b61f45';
+
+          await this.delay(500);
+
+          element2.style.backgroundColor = '#35858B';
+
+          if(j + 1 === this.size - i - 1) {
+            element2.style.backgroundColor = '#0f4851';
+          }
+
         }
 
         element1.style.backgroundColor = '#35858B';
 
       }
     }
+
+    (document.getElementsByClassName('' + 0)[0] as HTMLElement).style.backgroundColor = '#0f4851';
   }
 
   selectionSort() {
@@ -108,6 +133,10 @@ export class AppComponent implements OnChanges {
 
   reset() {
     this.barHeights = [...this.barHeightsBackup];
+
+    for(let i = 0; i < this.size; i++) {
+      (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = '#35858B';
+    }
   }
 
   delay(ms: number) {
