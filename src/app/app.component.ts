@@ -108,8 +108,46 @@ export class AppComponent {
     (document.getElementsByClassName('' + 0)[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
   }
 
-  selectionSort() {
-    console.log('selection sort');
+  async selectionSort() {
+
+    this.barHeightsForReset = [...this.barHeights];
+
+    for(let i = 0; i < this.numberOfBars - 1; i++) {
+      let min = this.barHeights[i];
+      let minIndex = i;
+
+      for(let j = i; j < this.numberOfBars; j++) {
+        let element2 = document.getElementsByClassName('' + j)[0] as HTMLElement;
+        element2.style.backgroundColor = Colors.SELECTED;
+        await this.delay(1000);
+
+        if(this.barHeights[j] < min) {
+          let previousMin = document.getElementsByClassName('' + minIndex)[0] as HTMLElement;
+
+          if(previousMin) {
+            previousMin.style.backgroundColor = Colors.DEFAULT;
+          }
+
+          min = this.barHeights[j];
+          minIndex = j;
+
+          element2.style.backgroundColor = Colors.SWITCH;
+        }
+
+        else {
+          element2.style.backgroundColor = Colors.DEFAULT;
+        }
+      }
+
+      let temp = this.barHeights[i];
+      this.barHeights[i] = this.barHeights[minIndex];
+      this.barHeights[minIndex] = temp;
+      await this.delay(1);
+      (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
+    }
+
+    (document.getElementsByClassName('' + (this.numberOfBars - 1))[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
+
 
   }
 
@@ -132,7 +170,7 @@ export class AppComponent {
     this.barHeights = [...this.barHeightsForReset];
 
     for(let i = 0; i < this.numberOfBars; i++) {
-      (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = '#35858B';
+      (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = Colors.DEFAULT;
     }
   }
 
