@@ -45,13 +45,13 @@ h1 {
 
 /* Bars Section */
 
-div.elements {
+div.barsContainer {
   text-align: center;
   position: relative;
   top: 150px;
 }
 
-div.elements div {
+div.barsContainer div {
   background-color: #35858B;
   display: inline-block;
   width: 15px;
@@ -59,7 +59,6 @@ div.elements div {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-
 
 /* Navbar */
 

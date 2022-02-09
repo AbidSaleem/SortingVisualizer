@@ -56,8 +56,8 @@
     <img class="play-button" [ngClass]="{'img-disable': !algorithm}" src="assets/images/play-button.png" (click)="playClicked()">
   </div>
 
-  <div class="col col-md-6 col-sm-12 col-12 elements">
-    <div *ngFor="let barHeight of barHeights; let i = index" [style.height.px]="barHeight" class="'' + {{i}}">
+  <div class="col col-md-6 col-sm-12 col-12 barsContainer">
+    <div *ngFor="let barHeight of barHeights; let i = index" [style.height.px]="barHeight" class="'' + {{i}}" >
     </div>
   </div>
   <div class="col col-md-3 col-sm-12 col-12 controls">

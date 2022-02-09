@@ -1,29 +1,26 @@
 import { Component, OnChanges } from '@angular/core';
 import { Algorithms } from './enums/algorithms-enums';
+import { Colors } from './enums/colors-enum';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnChanges {
+export class AppComponent {
   title = 'SortingVisualizer';
 
   barHeights: number[] = [];
-  barHeightsBackup: number[] = [];
-  length = 400;
-  size = 20;
+  barHeightsForReset: number[] = [];
+  maxHeight = 400;
+  numberOfBars = 20;
   speed = 500;
   algorithm = Algorithms.NONE;
 
   constructor() {
-    for(let i = 0; i < this.size; i++) {
-      this.barHeights.push(Math.round(Math.random() * this.length + 40));
+    for(let i = 0; i < this.numberOfBars; i++) {
+      this.barHeights.push(Math.round(Math.random() * this.maxHeight + 40));
     }
-  }
-
-  ngOnChanges(): void {
-      console.log("on changes");
   }
 
   algorithmSelected(algorithm: string): void {
@@ -63,14 +60,14 @@ export class AppComponent implements OnChanges {
   }
 
   async bubbleSort() {
-    this.barHeightsBackup = [...this.barHeights];
+    this.barHeightsForReset = [...this.barHeights];
 
-    for(let i = 0; i < this.size - 1; i++) {
+    for(let i = 0; i < this.numberOfBars - 1; i++) {
 
-      for(let j = 0; j < this.size - i - 1; j++) {
+      for(let j = 0; j < this.numberOfBars - i - 1; j++) {
 
         let element1 = document.getElementsByClassName('' + j)[0] as HTMLElement;
-        element1.style.backgroundColor = '#B8405E';
+        element1.style.backgroundColor = Colors.SELECTED;
 
         await this.delay(this.speed);
 
@@ -81,8 +78,8 @@ export class AppComponent implements OnChanges {
           this.barHeights[j + 1] = temp;
           await this.delay(1);
 
-          if(j === this.size - i - 2) {
-            element1.style.backgroundColor = '#0f4851';
+          if(j === this.numberOfBars - i - 2) {
+            element1.style.backgroundColor = Colors.SORTED;
             continue;
           }
         }
@@ -90,25 +87,25 @@ export class AppComponent implements OnChanges {
         else {
           let element2 = document.getElementsByClassName('' + (j + 1))[0] as HTMLElement;
 
-          element1.style.backgroundColor = '#b61f45';
-          element2.style.backgroundColor = '#b61f45';
+          element1.style.backgroundColor = Colors.SWITCH;
+          element2.style.backgroundColor = Colors.SWITCH;
 
           await this.delay(500);
 
-          element2.style.backgroundColor = '#35858B';
+          element2.style.backgroundColor = Colors.DEFAULT;
 
-          if(j + 1 === this.size - i - 1) {
-            element2.style.backgroundColor = '#0f4851';
+          if(j + 1 === this.numberOfBars - i - 1) {
+            element2.style.backgroundColor = Colors.SORTED;
           }
 
         }
 
-        element1.style.backgroundColor = '#35858B';
+        element1.style.backgroundColor = Colors.DEFAULT;
 
       }
     }
 
-    (document.getElementsByClassName('' + 0)[0] as HTMLElement).style.backgroundColor = '#0f4851';
+    (document.getElementsByClassName('' + 0)[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
   }
 
   selectionSort() {
@@ -132,9 +129,9 @@ export class AppComponent implements OnChanges {
   }
 
   reset() {
-    this.barHeights = [...this.barHeightsBackup];
+    this.barHeights = [...this.barHeightsForReset];
 
-    for(let i = 0; i < this.size; i++) {
+    for(let i = 0; i < this.numberOfBars; i++) {
       (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = '#35858B';
     }
   }
