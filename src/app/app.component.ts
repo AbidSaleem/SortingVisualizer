@@ -21,6 +21,8 @@ export class AppComponent {
     for(let i = 0; i < this.numberOfBars; i++) {
       this.barHeights.push(Math.round(Math.random() * this.maxHeight + 40));
     }
+
+    this.barHeightsForReset = [...this.barHeights];
   }
 
   algorithmSelected(algorithm: string): void {
@@ -60,7 +62,6 @@ export class AppComponent {
   }
 
   async bubbleSort() {
-    this.barHeightsForReset = [...this.barHeights];
 
     for(let i = 0; i < this.numberOfBars - 1; i++) {
 
@@ -90,7 +91,7 @@ export class AppComponent {
           element1.style.backgroundColor = Colors.SWITCH;
           element2.style.backgroundColor = Colors.SWITCH;
 
-          await this.delay(500);
+          await this.delay(this.speed);
 
           element2.style.backgroundColor = Colors.DEFAULT;
 
@@ -109,9 +110,6 @@ export class AppComponent {
   }
 
   async selectionSort() {
-
-    this.barHeightsForReset = [...this.barHeights];
-
     for(let i = 0; i < this.numberOfBars - 1; i++) {
       let min = this.barHeights[i];
       let minIndex = i;
@@ -151,9 +149,44 @@ export class AppComponent {
 
   }
 
-  insertionSort() {
-    console.log('insertion sort');
+  async insertionSort() {
+    for(let i = 1; i <= this.numberOfBars - 1; i++) {
+      let selectedBar = document.getElementsByClassName('' + i)[0] as HTMLElement;
 
+      selectedBar.style.backgroundColor = Colors.SELECTED;
+      await this.delay(this.speed);
+
+      if(this.barHeights[i] < this.barHeights[i - 1]) {
+
+        let j = i;
+
+        while(j > 0 && this.barHeights[j] < this.barHeights[j - 1]) {
+          selectedBar.style.backgroundColor = Colors.SWITCH;
+          let switchBar = document.getElementsByClassName('' + (j - 1))[0] as HTMLElement;
+          switchBar.style.backgroundColor = Colors.SWITCH;
+
+          await this.delay(this.speed);
+
+          let temp = this.barHeights[j - 1];
+          this.barHeights[j - 1] = this.barHeights[j];
+          this.barHeights[j] = temp;
+
+          await this.delay(this.speed);
+
+          switchBar.style.backgroundColor = Colors.DEFAULT;
+
+          j--;
+
+          await this.delay(this.speed);
+        }
+
+        selectedBar.style.backgroundColor = Colors.DEFAULT;
+      }
+    }
+
+    for(let i = 0; i < this.numberOfBars; i++) {
+      (document.getElementsByClassName('' + i)[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
+    }
   }
 
   mergeSort() {
