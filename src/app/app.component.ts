@@ -54,7 +54,8 @@ export class AppComponent {
       this.insertionSort();
     }
     else if(this.algorithm === Algorithms.MERGE_SORT) {
-      this.mergeSort();
+      console.log(this.barHeights);
+      console.log(this.mergeSort(this.barHeights));
     }
     else if(this.algorithm === Algorithms.QUICK_SORT) {
       this.quickSort();
@@ -189,8 +190,42 @@ export class AppComponent {
     }
   }
 
-  mergeSort() {
-    console.log('merge sort');
+  mergeSort(array: number[]): number[] {
+
+    if(array.length === 1) {
+      return array;
+    }
+
+    let middle = Math.floor(array.length / 2);
+
+    let right = this.mergeSort(array.slice(0, middle));
+    let left = this.mergeSort(array.slice(middle, array.length));
+
+    let i = 0;
+    let j = 0;
+    let sorted: number[] = [];
+
+    while(i < right.length && j < left.length) {
+      if(right[i] < left[j]) {
+        sorted.push(right[i]);
+        i++;
+      }
+
+      else if(left[j] < right[i]) {
+        sorted.push(left[j]);
+        j++;
+      }
+    }
+
+    if(i < right.length) {
+      sorted.push(...(right.splice(i)));
+    }
+
+    else if(j < left.length) {
+      sorted.push(...(left.splice(j)));
+    }
+
+    return sorted;
 
   }
 
