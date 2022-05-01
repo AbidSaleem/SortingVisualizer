@@ -1,4 +1,4 @@
-import { Component, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Algorithms } from './enums/algorithms-enums';
 import { Colors } from './enums/colors-enum';
 
@@ -7,17 +7,21 @@ import { Colors } from './enums/colors-enum';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'SortingVisualizer';
 
   barHeights: number[] = [];
   barHeightsForReset: number[] = [];
   maxHeight = 400;
   numberOfBars = 20;
-  speed = 500;
+  speed = 250;
   algorithm = Algorithms.NONE;
 
   constructor() {
+
+  }
+
+  ngOnInit() {
     for(let i = 0; i < this.numberOfBars; i++) {
       this.barHeights.push(Math.round(Math.random() * this.maxHeight + 40));
     }
@@ -38,9 +42,9 @@ export class AppComponent {
     else if(algorithm === "Merge Sort") {
       this.algorithm = Algorithms.MERGE_SORT;
     }
-    else if(algorithm === "Quick Sort") {
-      this.algorithm = Algorithms.QUICK_SORT;
-    }
+    // else if(algorithm === "Quick Sort") {
+    //   this.algorithm = Algorithms.QUICK_SORT;
+    // }
   }
 
   playClicked(): void {
@@ -54,12 +58,17 @@ export class AppComponent {
       this.insertionSort();
     }
     else if(this.algorithm === Algorithms.MERGE_SORT) {
-      console.log(this.barHeights);
-      console.log(this.mergeSort(this.barHeights));
+      let dictionary = new Map<number, number>();
+
+      for(let i = 0; i < this.barHeights.length; i++) {
+        dictionary.set(i, this.barHeights[i]);
+      }
+
+      this.mergeSort(dictionary);
     }
-    else if(this.algorithm === Algorithms.QUICK_SORT) {
-      this.quickSort();
-    }
+    // else if(this.algorithm === Algorithms.QUICK_SORT) {
+    //   this.quickSort();
+    // }
   }
 
   async bubbleSort() {
@@ -118,7 +127,7 @@ export class AppComponent {
       for(let j = i; j < this.numberOfBars; j++) {
         let element2 = document.getElementsByClassName('' + j)[0] as HTMLElement;
         element2.style.backgroundColor = Colors.SELECTED;
-        await this.delay(1000);
+        await this.delay(this.speed);
 
         if(this.barHeights[j] < min) {
           let previousMin = document.getElementsByClassName('' + minIndex)[0] as HTMLElement;
@@ -146,7 +155,6 @@ export class AppComponent {
     }
 
     (document.getElementsByClassName('' + (this.numberOfBars - 1))[0] as HTMLElement).style.backgroundColor = Colors.SORTED;
-
 
   }
 
@@ -190,49 +198,73 @@ export class AppComponent {
     }
   }
 
-  mergeSort(array: number[]): number[] {
+  async mergeSort(dictionary: Map<number, number>) {
 
-    if(array.length === 1) {
-      return array;
+    if(dictionary.size === 1) {
+      return dictionary;
     }
 
-    let middle = Math.floor(array.length / 2);
+    let middle = Math.floor(dictionary.size / 2);
 
-    let right = this.mergeSort(array.slice(0, middle));
-    let left = this.mergeSort(array.slice(middle, array.length));
+    let left = await this.mergeSort(new Map(Array.from(dictionary).slice(0, middle)));
+    let right = await this.mergeSort(new Map(Array.from(dictionary).slice(middle, dictionary.size)));
 
     let i = 0;
     let j = 0;
-    let sorted: number[] = [];
+    let sortedMap = new Map();
 
-    while(i < right.length && j < left.length) {
-      if(right[i] < left[j]) {
-        sorted.push(right[i]);
+    while(i < left.size && j < right.size) {
+
+      if(Array.from(left)[i][1] < Array.from (right)[j][1]) {
+        sortedMap.set(Array.from(left)[i][0], Array.from(left)[i][1]);
         i++;
       }
 
-      else if(left[j] < right[i]) {
-        sorted.push(left[j]);
+      else if(Array.from(right)[j][1] < Array.from(left)[i][1]) {
+
+        let selectedBar = document.getElementsByClassName('' + i)[0] as HTMLElement;
+        selectedBar.style.backgroundColor = Colors.SELECTED;
+        await this.delay(this.speed);
+
+        let temp = this.barHeights[Array.from(left)[i][0]];
+        this.barHeights[Array.from(left)[i][0]] = this.barHeights[Array.from(right)[j][0]];
+        this.barHeights[Array.from(right)[j][0]] = temp;
+
+        console.log(this.barHeights);
+
+        let temp1 = Array.from(left)[i][0];
+        Array.from(left)[i][0] = Array.from(right)[j][0];
+        Array.from(right)[j][0] = temp1;
+
+        sortedMap.set(Array.from((right))[j][0], Array.from((right))[j][1]);
+
+        await this.delay(this.speed);
+
         j++;
+
       }
     }
 
-    if(i < right.length) {
-      sorted.push(...(right.splice(i)));
+    if(i < (left).size) {
+      for(let e = i;  e < (left).size; e++) {
+        sortedMap.set(Array.from(left)[e][0], Array.from(left)[e][1]);
+      }
     }
 
-    else if(j < left.length) {
-      sorted.push(...(left.splice(j)));
+    else if(j < (right).size) {
+      for(let e = j;  e < (right).size; e++) {
+        sortedMap.set(Array.from(right)[e][0], Array.from(right)[e][1]);
+      }
     }
 
-    return sorted;
+    return sortedMap;
 
   }
 
-  quickSort() {
-    console.log('quick sort');
+  // quickSort() {
+  //   console.log('quick sort');
 
-  }
+  // }
 
   reset() {
     this.barHeights = [...this.barHeightsForReset];
@@ -242,8 +274,12 @@ export class AppComponent {
     }
   }
 
+  newArray() {
+    this.barHeights = [];
+    this.ngOnInit();
+  }
+
   delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
   }
-
 }
