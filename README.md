@@ -1,4 +1,4 @@
-# SortingVisualizer
+# Sorting Visualizer
 
 Visualize sorting algorithms
 
