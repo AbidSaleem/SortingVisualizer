@@ -2,7 +2,8 @@
 
 Visualize sorting algorithms
 
-![Uploading selection sort.gif…]()
+![selection sort](https://user-images.githubusercontent.com/30441751/166223436-a8530d12-cd15-4e09-af26-0628b46f7e74.gif)
+
 
 ## Description
 
